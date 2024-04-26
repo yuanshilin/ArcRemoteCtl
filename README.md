@@ -1,5 +1,12 @@
 # ArcRemoteCtl 服务组件
-## 组件编译说明
+## 功能要点
+`ArcRemoteCtl 服务组件`监听开机广播启动介绍后，创建`默认端口（8701）`的网络连接，随后在线程中等待控制端发送的ArcEvent信息。其中`ArcRemoteCtl 服务组件`开机只能指定一个端口创建网络连接，如果需要更改网络连接端口，可以设置网络连接端口属性，adb 指令操作如下：
+```
+$ setprop persist.create.hostport 4703
+```
+随后重启系统，`ArcRemoteCtl 服务组件`就会创建端口为`4703`的网络连接了。  
+## `注意： 服务端端口改变之后，控制端的目标网络通信端口也要更改并与服务端保持一致`。
+## 组件编译安装说明
 ### 方式一：手动安装 ArcRemoteCtl 服务组件
 ```js/java/c#/text/shell
 $ source build/envsetup.sh 
@@ -56,7 +63,11 @@ PRODUCT_PACKAGES += ArcRemoteCtl
 
 ## 方式对比
 __手动安装__  
-不需要编译系统和烧录分区镜像，只需要编译出 apk 文件，安装到 AOSP 固件设备上，中间需要手动重启一次才能实现 ArcRemoteCtl 服务组件监听系统开机广播并自启。  
+```
+不需要编译系统和烧录分区镜像，只需要编译出 apk 文件，安装到 AOSP 固件设备上，中间需要手动重启一次才能实现 ArcRemoteCtl 服务组件监听系统开机广播并自启。
+```
   
 __系统集成__  
-需要将 "ArcRemoteCtl" 添加到编译文件，接着编译 AOSP Android系统分区，然后烧录Sytem.img 或 super.img 即可实现功能。  
+```
+需要将 "ArcRemoteCtl" 添加到编译文件，接着编译 AOSP Android系统分区，然后烧录Sytem.img 或 super.img 即可实现功能。
+```
