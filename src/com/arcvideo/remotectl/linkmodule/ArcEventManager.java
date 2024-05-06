@@ -16,6 +16,7 @@ public class ArcEventManager {
     private static final String TAG = "ArcEventManager";
     public static int ServerPort;
     public static PowerManager powerManager = null;
+    private static PowerManager.WakeLock wakeLock = null;
     public static ServerSocket serverSocket = null;
     private static DataInputStream dis = null;
     private static Socket csocket = null;
@@ -24,8 +25,13 @@ public class ArcEventManager {
         if (powerManager == null) {
             powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         }
+        if (wakeLock == null) {
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, context.getClass().getName());
+        }
+        wakeLock.acquire();
         Log.d(TAG, "init: ArcEventManager init success.");
     }
+
     public static void createSocketServer(){
         new Thread(new Runnable() {
             @Override
@@ -63,6 +69,7 @@ public class ArcEventManager {
             if (serverSocket != null) {
                 serverSocket.close();
             }
+            wakeLock.release();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
