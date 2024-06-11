@@ -61,6 +61,7 @@ public class CameraStreamService {
 
     public void startAll() {
         try {
+            Log.d(TAG, "startAll: start push camera stream.");
             ICameraBinder.startAll();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -68,6 +69,7 @@ public class CameraStreamService {
     }
     public void stopAll() {
         try {
+            Log.d(TAG, "stopAll: stop push camera stream.");
             ICameraBinder.stopAll();
         } catch (RemoteException e) {
             throw new RuntimeException(e);

@@ -97,9 +97,11 @@ public class ArcEventManager {
                 powerManager.wakeUp(SystemClock.uptimeMillis());
                 break;
             case ArcEvent.START_PUSH_FLOW:
+                Log.d(TAG, "ArcEvent is START_PUSH_FLOW");
                 cameraStreamService.startAll();
                 break;
             case ArcEvent.STOP_PUSH_FLOW:
+                Log.d(TAG, "ArcEvent is STOP_PUSH_FLOW");
                 cameraStreamService.stopAll();
                 break;
             default:
