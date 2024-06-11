@@ -66,4 +66,8 @@ PRODUCT_PACKAGES += ArcRemoteCtl
 不需要编译系统和烧录分区镜像，只需要编译出 apk 文件，安装到 AOSP 固件设备上，中间需要手动重启一次才能实现 ArcRemoteCtl 服务组件监听系统开机广播并自启。
   
 ### 系统集成  
-需要将 "ArcRemoteCtl" 添加到编译文件，接着编译 AOSP Android系统分区，然后烧录Sytem.img 或 super.img 即可实现功能。
+需要将 "ArcRemoteCtl" 添加到编译文件，接着编译 AOSP Android系统分区，然后烧录Sytem.img 或 super.img 即可实现功能。  
+
+## 支持功能
+1. 远程设备休眠/唤醒
+2. 开启/关闭 摄像头推流工作（需要安装结合 streamer 服务应用）

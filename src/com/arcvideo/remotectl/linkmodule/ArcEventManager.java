@@ -5,6 +5,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.arcvideo.remotectl.linkmodule.camerastreammodule.CameraStreamService;
 import com.arcvideo.remotectl.util.PropUtil;
 
 import java.io.DataInputStream;
@@ -20,8 +21,10 @@ public class ArcEventManager {
     public static ServerSocket serverSocket = null;
     private static DataInputStream dis = null;
     private static Socket csocket = null;
+    private static CameraStreamService cameraStreamService = null;
 
     public static void init(Context context){
+        // 初始化屏幕 息屏/唤醒 模块
         if (powerManager == null) {
             powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         }
@@ -29,6 +32,10 @@ public class ArcEventManager {
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, context.getClass().getName());
         }
         wakeLock.acquire();
+
+        // 初始化摄像头推流服务模块
+        cameraStreamService = new CameraStreamService(context);
+        cameraStreamService.initService();
         Log.d(TAG, "init: ArcEventManager init success.");
     }
 
@@ -85,6 +92,12 @@ public class ArcEventManager {
             case ArcEvent.WAKE_UP:
                 Log.d(TAG, "ArcEvent is WAKE_UP");
                 powerManager.wakeUp(SystemClock.uptimeMillis());
+                break;
+            case ArcEvent.START_PUSH_FLOW:
+                cameraStreamService.startAll();
+                break;
+            case ArcEvent.STOP_PUSH_FLOW:
+                cameraStreamService.stopAll();
                 break;
             default:
         }
