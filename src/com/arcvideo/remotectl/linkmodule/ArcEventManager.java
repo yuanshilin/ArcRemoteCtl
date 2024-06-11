@@ -34,8 +34,11 @@ public class ArcEventManager {
         wakeLock.acquire();
 
         // 初始化摄像头推流服务模块
-        cameraStreamService = new CameraStreamService(context);
-        cameraStreamService.initService();
+	if (cameraStreamService == null){
+            cameraStreamService = new CameraStreamService(context);
+            cameraStreamService.initService();
+        }
+
         Log.d(TAG, "init: ArcEventManager init success.");
     }
 
